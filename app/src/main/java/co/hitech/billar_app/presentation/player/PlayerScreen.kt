@@ -1,5 +1,6 @@
 package co.hitech.billar_app.presentation.player
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import co.hitech.billar_app.presentation.player.components.KpiTopBar
 import co.hitech.billar_app.presentation.player.components.PlayerCard
 import co.hitech.billar_app.presentation.session.GameSessionViewModel
 import co.hitech.billar_app.ui.theme.BackgroundDark
+import co.hitech.billar_app.utils.Constants
 
 /**
  * Main player screen
@@ -42,7 +44,21 @@ fun PlayerScreen(
     val cameraState by cameraViewModel.cameraState.collectAsState()
     val isLive by cameraViewModel.isLive.collectAsState()
     val isRecording by cameraViewModel.isRecording.collectAsState()
-    
+    val isMaximized by cameraViewModel.isMaximized.collectAsState()
+
+    // Initialize camera URL with default value on first composition
+    LaunchedEffect(Unit) {
+        Log.d("PlayerScreen", "Initializing camera URL")
+        Log.d("PlayerScreen", "Current camera URL: '$cameraUrl'")
+        Log.d("PlayerScreen", "DEFAULT_CAMERA_URL: '${Constants.DEFAULT_CAMERA_URL}'")
+        if (cameraUrl.isEmpty()) {
+            Log.d("PlayerScreen", "Camera URL is empty, setting default")
+            cameraViewModel.setCameraUrl(Constants.DEFAULT_CAMERA_URL)
+        } else {
+            Log.d("PlayerScreen", "Camera URL already set: $cameraUrl")
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,41 +67,45 @@ fun PlayerScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Top bar with KPIs
-            KpiTopBar(
-                time = elapsedTime,
-                cost = totalCost,
-                entryCount = entryCount,
-                carambolas = carambolas,
-                onCloseSession = {
-                    sessionViewModel.endSession()
-                }
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
+            // Top bar with KPIs (hide when maximized)
+            if (!isMaximized) {
+                KpiTopBar(
+                    time = elapsedTime,
+                    cost = totalCost,
+                    entryCount = entryCount,
+                    carambolas = carambolas,
+                    onCloseSession = {
+                        sessionViewModel.endSession()
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             // Main content area
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = if (isMaximized) 0.dp else 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Left side - First half of players
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    val leftPlayers = players.take((players.size + 1) / 2)
-                    items(leftPlayers) { player ->
-                        PlayerCard(
-                            player = player,
-                            onScoreChange = { change ->
-                                playerViewModel.updateScore(player.id, change)
-                            }
-                        )
+                // Left side - First half of players (hide when maximized)
+                if (!isMaximized) {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val leftPlayers = players.take((players.size + 1) / 2)
+                        items(leftPlayers) { player ->
+                            PlayerCard(
+                                player = player,
+                                onScoreChange = { change ->
+                                    playerViewModel.updateScore(player.id, change)
+                                }
+                            )
+                        }
                     }
                 }
                 
@@ -99,30 +119,36 @@ fun PlayerScreen(
                     onRewind = { cameraViewModel.rewind() },
                     onRecord = { cameraViewModel.toggleRecording() },
                     onGoToLive = { cameraViewModel.goToLive() },
+                    onMaximize = { cameraViewModel.toggleMaximize() },
                     modifier = Modifier
-                        .weight(2f)
+                        .weight(if (isMaximized) 1f else 2f)
                         .fillMaxHeight()
                 )
                 
-                // Right side - Second half of players
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    val rightPlayers = players.drop((players.size + 1) / 2)
-                    items(rightPlayers) { player ->
-                        PlayerCard(
-                            player = player,
-                            onScoreChange = { change ->
-                                playerViewModel.updateScore(player.id, change)
-                            }
-                        )
+                // Right side - Second half of players (hide when maximized)
+                if (!isMaximized) {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val rightPlayers = players.drop((players.size + 1) / 2)
+                        items(rightPlayers) { player ->
+                            PlayerCard(
+                                player = player,
+                                onScoreChange = { change ->
+                                    playerViewModel.updateScore(player.id, change)
+                                }
+                            )
+                        }
                     }
                 }
             }
             
-            Spacer(modifier = Modifier.height(16.dp))
+            // Bottom spacing (hide when maximized)
+            if (!isMaximized) {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }

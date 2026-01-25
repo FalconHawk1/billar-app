@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
@@ -27,75 +28,110 @@ fun VideoControls(
     onRewind: () -> Unit,
     onRecord: () -> Unit,
     onGoToLive: () -> Unit,
+    onMaximize: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Box(
         modifier = modifier
             .background(Color.Black.copy(alpha = 0.7f))
-            .padding(12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
-        // Left controls
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Play/Pause button
-            IconButton(onClick = onPlayPause) {
-                Icon(
-                    imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    contentDescription = if (isPlaying) "Pause" else "Play",
-                    tint = Color.White,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-            
-            // Rewind button
-            IconButton(onClick = onRewind) {
-                Icon(
-                    imageVector = Icons.Default.Replay,
-                    contentDescription = "Rewind",
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-            
-            // Record button
-            IconButton(onClick = onRecord) {
-                Icon(
-                    imageVector = Icons.Default.Circle,
-                    contentDescription = "Record",
-                    tint = if (isRecording) Color.Red else Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-        }
-        
-        // Center - Timestamp
-        Text(
-            text = getCurrentTimestamp(),
-            color = Color.White,
-            fontSize = 14.sp
-        )
-        
-        // Right - Go to Live button
-        IconButton(onClick = onGoToLive) {
+            // Left controls
             Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier.weight(1f, fill = false)
             ) {
-                Icon(
-                    imageVector = Icons.Filled.RadioButtonChecked,
-                    contentDescription = "Go to Live",
-                    tint = Color.Red,
-                    modifier = Modifier.size(24.dp)
-                )
-                Text(
-                    text = "EN VIVO",
-                    color = Color.White,
-                    fontSize = 12.sp
-                )
+                // Play/Pause button
+                IconButton(
+                    onClick = onPlayPause,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.PauseCircleFilled else Icons.Filled.PlayCircleFilled,
+                        contentDescription = if (isPlaying) "Pause" else "Play",
+                        tint = Color.White,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+
+                // Rewind button
+                IconButton(
+                    onClick = onRewind,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Refresh,
+                        contentDescription = "Rewind",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                // Record button
+                IconButton(
+                    onClick = onRecord,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.RadioButtonUnchecked,
+                        contentDescription = "Record",
+                        tint = if (isRecording) Color.Red else Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            // Center - Timestamp
+            Text(
+                text = getCurrentTimestamp(),
+                color = Color.White,
+                fontSize = 13.sp,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            // Right controls
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f, fill = false)
+            ) {
+                // Go to Live button
+                IconButton(
+                    onClick = onGoToLive,
+                    modifier = Modifier.height(40.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.RadioButtonChecked,
+                            contentDescription = "Go to Live",
+                            tint = Color.Red,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+
+                // Maximize button
+                IconButton(
+                    onClick = onMaximize,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Fullscreen,
+                        contentDescription = "Maximize",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
         }
     }

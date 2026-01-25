@@ -1,9 +1,13 @@
 package co.hitech.billar_app.presentation.camera
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * Camera state sealed class
@@ -21,6 +25,10 @@ sealed class CameraState {
  */
 class CameraViewModel : ViewModel() {
     
+    companion object {
+        private const val TAG = "CameraViewModel"
+    }
+
     private val _cameraUrl = MutableStateFlow("")
     val cameraUrl: StateFlow<String> = _cameraUrl.asStateFlow()
     
@@ -33,13 +41,32 @@ class CameraViewModel : ViewModel() {
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
     
+    private val _isMaximized = MutableStateFlow(false)
+    val isMaximized: StateFlow<Boolean> = _isMaximized.asStateFlow()
+
     /**
      * Set camera URL
      */
     fun setCameraUrl(url: String) {
+        Log.d("TAGI", "Setting camera URL: $url")
         _cameraUrl.value = url
         if (url.isNotEmpty()) {
+            Log.d("TAGI", "URL is not empty, setting state to Loading")
             _cameraState.value = CameraState.Loading
+
+            // Auto-transition to Playing state after brief delay
+            // In real implementation, this would happen when ExoPlayer is ready
+            viewModelScope.launch {
+                delay(1500) // Simulate loading time
+                if (_cameraState.value is CameraState.Loading) {
+                    Log.d("TAGI", "Auto-transitioning to Playing state")
+                    _cameraState.value = CameraState.Playing
+                    _isLive.value = true
+                }
+            }
+        } else {
+            Log.w("TAGI", "URL is empty!")
+            _cameraState.value = CameraState.Idle
         }
     }
     
@@ -47,6 +74,7 @@ class CameraViewModel : ViewModel() {
      * Play the camera stream
      */
     fun play() {
+        Log.d(TAG, "Playing camera stream")
         _cameraState.value = CameraState.Playing
         _isLive.value = true
     }
@@ -105,5 +133,13 @@ class CameraViewModel : ViewModel() {
      */
     fun onReady() {
         _cameraState.value = CameraState.Playing
+    }
+
+    /**
+     * Toggle maximize/minimize camera view
+     */
+    fun toggleMaximize() {
+        Log.d(TAG, "Toggling maximize: ${!_isMaximized.value}")
+        _isMaximized.value = !_isMaximized.value
     }
 }

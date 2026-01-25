@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import co.hitech.billar_app.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -36,7 +37,7 @@ class PreferencesManager(private val context: Context) {
             }
         }
         .map { preferences ->
-            preferences[TABLE_ID] ?: "table_1"
+            preferences[TABLE_ID] ?: Constants.DEFAULT_TABLE_ID
         }
     
     /**
@@ -51,7 +52,7 @@ class PreferencesManager(private val context: Context) {
             }
         }
         .map { preferences ->
-            preferences[CAMERA_URL] ?: ""
+            preferences[CAMERA_URL] ?: Constants.DEFAULT_CAMERA_URL
         }
     
     /**
@@ -66,7 +67,7 @@ class PreferencesManager(private val context: Context) {
             }
         }
         .map { preferences ->
-            preferences[PRICE_PER_MINUTE] ?: 5.0
+            preferences[PRICE_PER_MINUTE] ?: Constants.DEFAULT_PRICE_PER_MINUTE
         }
     
     /**
@@ -81,7 +82,7 @@ class PreferencesManager(private val context: Context) {
             }
         }
         .map { preferences ->
-            preferences[API_BASE_URL] ?: "http://localhost:8080/"
+            preferences[API_BASE_URL] ?: Constants.DEFAULT_API_BASE_URL
         }
     
     /**

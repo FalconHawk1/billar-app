@@ -1,5 +1,6 @@
 package co.hitech.billar_app.presentation.player.components
 
+import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,8 +15,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import co.hitech.billar_app.presentation.camera.CameraState
 import co.hitech.billar_app.ui.theme.CardBackground
+
+/**
+ * MJPEG Camera View using WebView
+ */
+@Composable
+fun MjpegCameraView(url: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            WebView(context).apply {
+                settings.javaScriptEnabled = true
+                settings.loadWithOverviewMode = true
+                settings.useWideViewPort = true
+                loadUrl(url)
+            }
+        }
+    )
+}
 
 /**
  * Camera view component with video player and controls
@@ -30,6 +50,7 @@ fun CameraView(
     onRewind: () -> Unit,
     onRecord: () -> Unit,
     onGoToLive: () -> Unit,
+    onMaximize: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -120,16 +141,36 @@ fun CameraView(
                     }
                 }
                 else -> {
-                    // Placeholder for actual video (ExoPlayer would go here)
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Video Stream",
-                            color = Color.White.copy(alpha = 0.5f),
-                            fontSize = 24.sp
+                    // MJPEG Camera Stream using WebView
+                    if (cameraUrl.isNotEmpty()) {
+                        MjpegCameraView(
+                            url = cameraUrl,
+                            modifier = Modifier.fillMaxSize()
                         )
+                    } else {
+                        // Fallback when no URL is set
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.Videocam,
+                                    contentDescription = "No Camera",
+                                    tint = Color.White.copy(alpha = 0.3f),
+                                    modifier = Modifier.size(64.dp)
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = "No camera URL configured",
+                                    color = Color.White.copy(alpha = 0.5f),
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -184,6 +225,7 @@ fun CameraView(
                 onRewind = onRewind,
                 onRecord = onRecord,
                 onGoToLive = onGoToLive,
+                onMaximize = onMaximize,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
