@@ -77,7 +77,7 @@ fun KpiTopBar(
             KpiCard(
                 title = "Tiempo",
                 value = time,
-                icon = Icons.Default.Schedule,
+                icon = Icons.Default.AccessTime,
                 modifier = Modifier.weight(1f)
             )
             KpiCard(
@@ -89,13 +89,13 @@ fun KpiTopBar(
             KpiCard(
                 title = "Entrada",
                 value = entryCount.toString(),
-                icon = Icons.Default.Login,
+                icon = Icons.Default.Person,
                 modifier = Modifier.weight(1f)
             )
             KpiCard(
                 title = "Carambolas",
                 value = carambolas.toString(),
-                icon = Icons.Default.SportsTennis,
+                icon = Icons.Default.Star,
                 modifier = Modifier.weight(1f)
             )
         }

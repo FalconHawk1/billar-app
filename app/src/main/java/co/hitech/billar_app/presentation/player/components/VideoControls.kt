@@ -64,7 +64,7 @@ fun VideoControls(
             // Record button
             IconButton(onClick = onRecord) {
                 Icon(
-                    imageVector = Icons.Default.FiberManualRecord,
+                    imageVector = Icons.Default.Circle,
                     contentDescription = "Record",
                     tint = if (isRecording) Color.Red else Color.White,
                     modifier = Modifier.size(28.dp)
@@ -86,9 +86,9 @@ fun VideoControls(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Sensors,
+                    imageVector = Icons.Filled.RadioButtonChecked,
                     contentDescription = "Go to Live",
-                    tint = Color.White,
+                    tint = Color.Red,
                     modifier = Modifier.size(24.dp)
                 )
                 Text(

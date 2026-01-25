@@ -77,7 +77,7 @@ fun CameraView(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Error,
+                                Icons.Filled.Info,
                                 contentDescription = "Error",
                                 tint = Color.Red,
                                 modifier = Modifier.size(48.dp)

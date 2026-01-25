@@ -135,21 +135,20 @@ class PlayerViewModelFactory : androidx.lifecycle.ViewModelProvider.Factory {
     override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
         // Simplified version without repository dependency
         // Repository functionality is optional and not required for basic operation
-        val updatePlayerScoreUseCase = object : UpdatePlayerScoreUseCase(
-            repository = object : co.hitech.billar_app.data.repository.TableRepository {
-                override suspend fun startSession(tableId: String, playerNames: List<String>) = 
-                    Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
-                override suspend fun updateSession(sessionId: String, totalCost: Double, carambolas: Int, entryCount: Int) = 
-                    Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
-                override suspend fun endSession(sessionId: String, endTime: Long, totalCost: Double, carambolas: Int, entryCount: Int) = 
-                    Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
-                override suspend fun updatePlayerScore(sessionId: String, playerId: String, score: Int) = 
-                    Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
-                override suspend fun getTableConfig(tableId: String) = 
-                    Result.failure<co.hitech.billar_app.data.model.TableConfig>(Exception("Not implemented"))
-            }
-        ) {}
-        
+        val dummyRepository = object : co.hitech.billar_app.data.repository.TableRepository {
+            override suspend fun startSession(tableId: String, playerNames: List<String>) =
+                Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
+            override suspend fun updateSession(sessionId: String, totalCost: Double, carambolas: Int, entryCount: Int) =
+                Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
+            override suspend fun endSession(sessionId: String, endTime: Long, totalCost: Double, carambolas: Int, entryCount: Int) =
+                Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
+            override suspend fun updatePlayerScore(sessionId: String, playerId: String, score: Int) =
+                Result.failure<co.hitech.billar_app.data.remote.dto.SessionResponse>(Exception("Not implemented"))
+            override suspend fun getTableConfig(tableId: String) =
+                Result.failure<co.hitech.billar_app.data.model.TableConfig>(Exception("Not implemented"))
+        }
+
+        val updatePlayerScoreUseCase = UpdatePlayerScoreUseCase(dummyRepository)
         val addPlayerUseCase = AddPlayerUseCase()
         val removePlayerUseCase = RemovePlayerUseCase()
         
