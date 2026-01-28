@@ -62,7 +62,7 @@ class PlayerViewModel(
      */
     fun addPlayer() {
         val currentPlayers = _players.value
-        if (currentPlayers.size < 6) {
+        if (currentPlayers.size < 8) {
             val newPlayerName = addPlayerUseCase(currentPlayers.size)
             val newPlayer = Player(
                 id = UUID.randomUUID().toString(),

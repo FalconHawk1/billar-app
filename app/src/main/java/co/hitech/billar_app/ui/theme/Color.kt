@@ -15,6 +15,8 @@ val Player3Color = Color(0xFF90EE90)  // Light Green
 val Player4Color = Color(0xFFADD8E6)  // Light Blue
 val Player5Color = Color(0xFFFFB6C1)  // Light Pink
 val Player6Color = Color(0xFFDDA0DD)  // Plum
+val Player7Color = Color(0xFFFF6347)  // Tomato
+val Player8Color = Color(0xFF87CEEB)  // Sky Blue
 
 // Score button colors
 val ScoreMinusColor = Color(0xFFEF5350)  // Red
