@@ -53,10 +53,6 @@ class PlayerViewModel(
         _players.value = newPlayers
     }
     
-    private fun initializePlayers() {
-        initializePlayers(2)
-    }
-    
     /**
      * Add a new player
      */

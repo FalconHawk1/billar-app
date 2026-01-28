@@ -53,18 +53,9 @@ fun PlayerScreen(
         playerViewModel.initializePlayers(playerCount)
     }
 
-    // Implement delay before starting the game session
+    // Initialize camera and implement delay
     LaunchedEffect(Unit) {
-        Log.d("PlayerScreen", "Starting delay of $delayTime seconds")
-        if (delayTime > 0) {
-            kotlinx.coroutines.delay(delayTime * 1000L)
-            Log.d("PlayerScreen", "Delay completed, starting game session")
-        }
-        // After delay, you can trigger any initial game setup here
-    }
-
-    // Initialize camera URL with default value on first composition
-    LaunchedEffect(Unit) {
+        // Initialize camera URL with default value
         Log.d("PlayerScreen", "Initializing camera URL")
         Log.d("PlayerScreen", "Current camera URL: '$cameraUrl'")
         Log.d("PlayerScreen", "DEFAULT_CAMERA_URL: '${Constants.DEFAULT_CAMERA_URL}'")
@@ -74,6 +65,14 @@ fun PlayerScreen(
         } else {
             Log.d("PlayerScreen", "Camera URL already set: $cameraUrl")
         }
+        
+        // Implement delay before starting the game session
+        Log.d("PlayerScreen", "Starting delay of $delayTime seconds")
+        if (delayTime > 0) {
+            kotlinx.coroutines.delay(delayTime * 1000L)
+            Log.d("PlayerScreen", "Delay completed, starting game session")
+        }
+        // After delay, you can trigger any initial game setup here
     }
 
     Box(
