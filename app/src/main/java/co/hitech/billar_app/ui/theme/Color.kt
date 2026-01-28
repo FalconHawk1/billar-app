@@ -2,11 +2,12 @@ package co.hitech.billar_app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Dark theme colors
-val BackgroundDark = Color(0xFF1a1f2e)
-val CardBackground = Color(0xFF2a2f3e)
-val AccentPurple = Color(0xFF9C27B0)
-val AccentGold = Color(0xFFFFD700)
+// Light theme colors - Billiard inspired
+val BackgroundLight = Color(0xFFF5F5DC)  // Beige claro (color de fieltro de billar)
+val CardBackground = Color(0xFFFFFFFF)  // Blanco
+val TableGreen = Color(0xFF0B6623)  // Verde mesa de billar
+val WoodBrown = Color(0xFF8B4513)  // Marrón madera (bordes de mesa)
+val AccentGold = Color(0xFFFFD700)  // Dorado (detalles)
 
 // Player colors
 val Player1Color = Color(0xFFFFFFFF)  // White

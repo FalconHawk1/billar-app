@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import co.hitech.billar_app.navigation.NavGraph
-import co.hitech.billar_app.ui.theme.BackgroundDark
 import co.hitech.billar_app.ui.theme.BillarappTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,8 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BillarappTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = BackgroundDark
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     val navController = rememberNavController()
                     NavGraph(navController = navController)

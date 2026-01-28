@@ -18,7 +18,7 @@ import co.hitech.billar_app.presentation.player.components.CameraView
 import co.hitech.billar_app.presentation.player.components.KpiTopBar
 import co.hitech.billar_app.presentation.player.components.PlayerCard
 import co.hitech.billar_app.presentation.session.GameSessionViewModel
-import co.hitech.billar_app.ui.theme.BackgroundDark
+import co.hitech.billar_app.ui.theme.BackgroundLight
 import co.hitech.billar_app.utils.Constants
 
 /**
@@ -78,7 +78,7 @@ fun PlayerScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(BackgroundLight)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()

@@ -13,7 +13,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import co.hitech.billar_app.ui.theme.AccentGold
+import co.hitech.billar_app.ui.theme.TableGreen
+import co.hitech.billar_app.ui.theme.WoodBrown
 import co.hitech.billar_app.ui.theme.CardBackground
 
 /**
@@ -32,7 +33,7 @@ fun KpiTopBar(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(CardBackground.copy(alpha = 0.5f))
+            .background(CardBackground.copy(alpha = 0.9f))
             .padding(16.dp)
     ) {
         // Header with title and close button
@@ -45,13 +46,13 @@ fun KpiTopBar(
                 Text(
                     text = "Mesa de Jugadores",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = AccentGold,
+                    color = TableGreen,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Bienvenido, Player User",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = WoodBrown
                 )
             }
             
@@ -61,7 +62,6 @@ fun KpiTopBar(
                     containerColor = Color.Red.copy(alpha = 0.8f)
                 )
             ) {
-                Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar Sesión")
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Cerrar Sesión")
             }
@@ -115,7 +115,7 @@ fun KpiCard(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = CardBackground.copy(alpha = 0.8f)
+            containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -128,21 +128,21 @@ fun KpiCard(
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = AccentGold,
+                tint = TableGreen,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.7f),
+                color = WoodBrown,
                 fontSize = 11.sp
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.White,
+                color = TableGreen,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
