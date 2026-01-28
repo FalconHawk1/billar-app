@@ -26,6 +26,8 @@ import co.hitech.billar_app.utils.Constants
  */
 @Composable
 fun PlayerScreen(
+    playerCount: Int = 2,
+    delayTime: Int = 30,
     playerViewModel: PlayerViewModel = viewModel(
         factory = PlayerViewModelFactory()
     ),
@@ -45,6 +47,21 @@ fun PlayerScreen(
     val isLive by cameraViewModel.isLive.collectAsState()
     val isRecording by cameraViewModel.isRecording.collectAsState()
     val isMaximized by cameraViewModel.isMaximized.collectAsState()
+
+    // Initialize players based on playerCount
+    LaunchedEffect(playerCount) {
+        playerViewModel.initializePlayers(playerCount)
+    }
+
+    // Implement delay before starting the game session
+    LaunchedEffect(Unit) {
+        Log.d("PlayerScreen", "Starting delay of $delayTime seconds")
+        if (delayTime > 0) {
+            kotlinx.coroutines.delay(delayTime * 1000L)
+            Log.d("PlayerScreen", "Delay completed, starting game session")
+        }
+        // After delay, you can trigger any initial game setup here
+    }
 
     // Initialize camera URL with default value on first composition
     LaunchedEffect(Unit) {

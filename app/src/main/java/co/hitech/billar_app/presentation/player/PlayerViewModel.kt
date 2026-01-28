@@ -33,26 +33,28 @@ class PlayerViewModel(
     val error: StateFlow<String?> = _error.asStateFlow()
     
     init {
-        // Initialize with 2 players
-        initializePlayers()
+        // Initialize with default 2 players
+        initializePlayers(2)
+    }
+    
+    /**
+     * Initialize players dynamically based on player count
+     */
+    fun initializePlayers(playerCount: Int) {
+        val validPlayerCount = playerCount.coerceIn(2, 8)
+        val newPlayers = (0 until validPlayerCount).map { index ->
+            Player(
+                id = UUID.randomUUID().toString(),
+                name = "Jugador ${index + 1}",
+                score = 0,
+                color = getPlayerColor(index)
+            )
+        }
+        _players.value = newPlayers
     }
     
     private fun initializePlayers() {
-        val initialPlayers = listOf(
-            Player(
-                id = UUID.randomUUID().toString(),
-                name = "Jugador 1",
-                score = 0,
-                color = getPlayerColor(0)
-            ),
-            Player(
-                id = UUID.randomUUID().toString(),
-                name = "Jugador 2",
-                score = 0,
-                color = getPlayerColor(1)
-            )
-        )
-        _players.value = initialPlayers
+        initializePlayers(2)
     }
     
     /**
