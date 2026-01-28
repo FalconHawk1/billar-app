@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import co.hitech.billar_app.presentation.player.PlayerScreen
+import androidx.navigation.compose.rememberNavController
+import co.hitech.billar_app.navigation.NavGraph
 import co.hitech.billar_app.ui.theme.BackgroundDark
 import co.hitech.billar_app.ui.theme.BillarappTheme
 
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = BackgroundDark
                 ) {
-                    PlayerScreen()
+                    val navController = rememberNavController()
+                    NavGraph(navController = navController)
                 }
             }
         }

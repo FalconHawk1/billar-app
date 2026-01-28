@@ -7,6 +7,8 @@ import co.hitech.billar_app.utils.Constants.PLAYER_3_COLOR
 import co.hitech.billar_app.utils.Constants.PLAYER_4_COLOR
 import co.hitech.billar_app.utils.Constants.PLAYER_5_COLOR
 import co.hitech.billar_app.utils.Constants.PLAYER_6_COLOR
+import co.hitech.billar_app.utils.Constants.PLAYER_7_COLOR
+import co.hitech.billar_app.utils.Constants.PLAYER_8_COLOR
 
 /**
  * Extension functions and utility helpers
@@ -23,6 +25,8 @@ fun getPlayerColor(index: Int): Color {
         3 -> Color(PLAYER_4_COLOR)
         4 -> Color(PLAYER_5_COLOR)
         5 -> Color(PLAYER_6_COLOR)
+        6 -> Color(PLAYER_7_COLOR)
+        7 -> Color(PLAYER_8_COLOR)
         else -> Color(PLAYER_1_COLOR)
     }
 }

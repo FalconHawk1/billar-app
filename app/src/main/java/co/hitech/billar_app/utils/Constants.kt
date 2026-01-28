@@ -18,6 +18,8 @@ object Constants {
     const val PLAYER_4_COLOR = 0xFFADD8E6  // Light Blue
     const val PLAYER_5_COLOR = 0xFFFFB6C1  // Light Pink
     const val PLAYER_6_COLOR = 0xFFDDA0DD  // Plum
+    const val PLAYER_7_COLOR = 0xFFFF6347  // Tomato
+    const val PLAYER_8_COLOR = 0xFF87CEEB  // Sky Blue
     
     // Score button colors
     const val SCORE_MINUS_COLOR = 0xFFEF5350  // Red
@@ -39,5 +41,12 @@ object Constants {
     
     // Session
     const val MIN_PLAYERS = 2
-    const val MAX_PLAYERS = 6
+    const val MAX_PLAYERS = 8
+    
+    // Game Setup
+    const val DEFAULT_PLAYER_COUNT = 2
+    const val DEFAULT_DELAY_TIME = 30
+    const val MIN_DELAY_TIME = 0
+    const val MAX_DELAY_TIME = 300
+    const val DELAY_TIME_STEP = 5
 }
