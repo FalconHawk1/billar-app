@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-01-28T01:31:09.392838400Z">
+        <DropdownSelection timestamp="2026-02-03T23:20:39.381380200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\fabia\.android\avd\Tablet_Billar_API_32.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\fabia\.android\avd\Tablet_Billar_API_34.avd" />
             </handle>
           </Target>
         </DropdownSelection>

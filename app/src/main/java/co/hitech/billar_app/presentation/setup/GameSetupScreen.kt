@@ -1,5 +1,6 @@
 package co.hitech.billar_app.presentation.setup
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,13 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import co.hitech.billar_app.R
 import co.hitech.billar_app.ui.theme.TableGreen
-import co.hitech.billar_app.ui.theme.BackgroundLight
 import co.hitech.billar_app.ui.theme.CardBackground
 import co.hitech.billar_app.ui.theme.WoodBrown
 import co.hitech.billar_app.utils.Constants
@@ -39,12 +41,19 @@ fun GameSetupScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundLight)
-            .padding(24.dp),
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        // Background image
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
         Column(
+            modifier = Modifier.padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
@@ -53,7 +62,7 @@ fun GameSetupScreen(
                 text = "PROBILLAR MANAGER",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = TableGreen,
+                color = Color(0xFF1976D2),
                 textAlign = TextAlign.Center
             )
 
@@ -66,14 +75,14 @@ fun GameSetupScreen(
                     text = "SELECCIONAR JUGADORES",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = WoodBrown
+                    color = Color(0xFF19ADD2)
                 )
 
                 // 2 Players button
                 PlayerSelectionButton(
                     text = "2 JUGADORES",
                     isSelected = selectedPlayerCount == 2,
-                    ballDrawables = listOf("ball_1", "ball_2"),
+                    ballDrawables = listOf(R.drawable.ball_1, R.drawable.ball_2),
                     onClick = { selectedPlayerCount = 2 }
                 )
 
@@ -81,7 +90,7 @@ fun GameSetupScreen(
                 PlayerSelectionButton(
                     text = "3 O 4 JUGADORES",
                     isSelected = selectedPlayerCount in 3..4,
-                    ballDrawables = listOf("ball_3", "ball_4"),
+                    ballDrawables = listOf(R.drawable.ball_3, R.drawable.ball_4),
                     onClick = {
                         dialogPlayerRange = 3..4
                         showPlayerDialog = true
@@ -92,7 +101,7 @@ fun GameSetupScreen(
                 PlayerSelectionButton(
                     text = "5 A 8 JUGADORES",
                     isSelected = selectedPlayerCount in 5..8,
-                    ballDrawables = listOf("ball_5", "ball_8"),
+                    ballDrawables = listOf(R.drawable.ball_5, R.drawable.ball_8),
                     onClick = {
                         dialogPlayerRange = 5..8
                         showPlayerDialog = true
@@ -109,7 +118,7 @@ fun GameSetupScreen(
                     text = "RETARDO EN SEG",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = WoodBrown
+                    color = Color(0xFFC9FFFD)
                 )
 
                 Row(
@@ -179,7 +188,7 @@ fun GameSetupScreen(
                     .fillMaxWidth(0.6f)
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = TableGreen
+                    containerColor = Color(0xFF1976D2)
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -213,7 +222,7 @@ fun GameSetupScreen(
 private fun PlayerSelectionButton(
     text: String,
     isSelected: Boolean,
-    ballDrawables: List<String>,
+    ballDrawables: List<Int>,
     onClick: () -> Unit
 ) {
     Button(
@@ -253,16 +262,10 @@ private fun PlayerSelectionButton(
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ballDrawables.forEach { drawableName ->
+                ballDrawables.forEach { drawableRes ->
                     androidx.compose.foundation.Image(
-                        painter = painterResource(
-                            id = androidx.compose.ui.platform.LocalContext.current.resources.getIdentifier(
-                                drawableName,
-                                "drawable",
-                                androidx.compose.ui.platform.LocalContext.current.packageName
-                            )
-                        ),
-                        contentDescription = drawableName,
+                        painter = painterResource(id = drawableRes),
+                        contentDescription = null,
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -285,7 +288,7 @@ private fun PlayerCountDialog(
         title = {
             Text(
                 text = "Seleccionar número de jugadores",
-                color = TableGreen,
+                color = Color(0xFF1976D2),
                 fontWeight = FontWeight.Bold
             )
         },
@@ -300,7 +303,7 @@ private fun PlayerCountDialog(
                             .fillMaxWidth()
                             .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = TableGreen
+                            containerColor = Color(0xFF1976D2)
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
@@ -317,10 +320,10 @@ private fun PlayerCountDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar", color = WoodBrown, fontWeight = FontWeight.Bold)
+                Text("Cancelar", color = Color(0xFF1976D2), fontWeight = FontWeight.Bold)
             }
         },
-        containerColor = CardBackground,
+        containerColor = Color(0xFF212121).copy(alpha = 0.95f),
         shape = RoundedCornerShape(16.dp)
     )
 }

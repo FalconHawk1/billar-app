@@ -8,7 +8,7 @@ object Constants {
     // Default values
     const val DEFAULT_TABLE_ID = "table_1"
     const val DEFAULT_PRICE_PER_MINUTE = 5.0
-    const val DEFAULT_CAMERA_URL = "http://192.168.0.12:8080/video"
+    const val DEFAULT_CAMERA_URL = "http://192.168.0.11:8080/video"
     const val DEFAULT_API_BASE_URL = "http://localhost:8080/"
     
     // Player colors

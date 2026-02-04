@@ -54,170 +54,178 @@ fun CameraView(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         colors = CardDefaults.cardColors(
             containerColor = CardBackground
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            // Video player placeholder
-            when (cameraState) {
-                is CameraState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            CircularProgressIndicator(
-                                color = Color.White,
-                                modifier = Modifier.size(48.dp)
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                text = "Cargando stream...",
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                        }
-                    }
-                }
-                is CameraState.Error -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                Icons.Filled.Info,
-                                contentDescription = "Error",
-                                tint = Color.Red,
-                                modifier = Modifier.size(48.dp)
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Error al cargar stream",
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                            Text(
-                                text = cameraState.message,
-                                color = Color.White.copy(alpha = 0.7f),
-                                fontSize = 12.sp
-                            )
-                        }
-                    }
-                }
-                is CameraState.Idle -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                Icons.Default.Videocam,
-                                contentDescription = "Camera",
-                                tint = Color.White.copy(alpha = 0.5f),
-                                modifier = Modifier.size(64.dp)
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Cámara IP",
-                                color = Color.White.copy(alpha = 0.7f),
-                                fontSize = 16.sp
-                            )
-                        }
-                    }
-                }
-                else -> {
-                    // MJPEG Camera Stream using WebView
-                    if (cameraUrl.isNotEmpty()) {
-                        MjpegCameraView(
-                            url = cameraUrl,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    } else {
-                        // Fallback when no URL is set
+            // Main camera box - adjusts to video size
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
+                    .background(Color.Black),
+            ) {
+                // Video player placeholder
+                when (cameraState) {
+                    is CameraState.Loading -> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
                             Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(16.dp)
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Icon(
-                                    Icons.Default.Videocam,
-                                    contentDescription = "No Camera",
-                                    tint = Color.White.copy(alpha = 0.3f),
-                                    modifier = Modifier.size(64.dp)
+                                CircularProgressIndicator(
+                                    color = Color.White,
+                                    modifier = Modifier.size(48.dp)
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text(
-                                    text = "No camera URL configured",
-                                    color = Color.White.copy(alpha = 0.5f),
+                                    text = "Cargando stream...",
+                                    color = Color.White,
                                     fontSize = 16.sp
                                 )
                             }
                         }
                     }
-                }
-            }
-            
-            // LIVE indicator
-            if (isLive) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(16.dp)
-                        .background(
-                            color = Color.Red,
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
+                    is CameraState.Error -> {
                         Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .background(Color.White, CircleShape)
-                        )
-                        Text(
-                            text = "LIVE",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    contentDescription = "Error",
+                                    tint = Color.Red,
+                                    modifier = Modifier.size(48.dp)
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = "Error al cargar stream",
+                                    color = Color.White,
+                                    fontSize = 16.sp
+                                )
+                                Text(
+                                    text = cameraState.message,
+                                    color = Color.White.copy(alpha = 0.7f),
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+                    }
+                    is CameraState.Idle -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    Icons.Default.Videocam,
+                                    contentDescription = "Camera",
+                                    tint = Color.White.copy(alpha = 0.5f),
+                                    modifier = Modifier.size(64.dp)
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = "Cámara IP",
+                                    color = Color.White.copy(alpha = 0.7f),
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
+                    }
+                    else -> {
+                        // MJPEG Camera Stream using WebView
+                        if (cameraUrl.isNotEmpty()) {
+                            MjpegCameraView(
+                                url = cameraUrl,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        } else {
+                            // Fallback when no URL is set
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Icon(
+                                        Icons.Default.Videocam,
+                                        contentDescription = "No Camera",
+                                        tint = Color.White.copy(alpha = 0.3f),
+                                        modifier = Modifier.size(64.dp)
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Text(
+                                        text = "No camera URL configured",
+                                        color = Color.White.copy(alpha = 0.5f),
+                                        fontSize = 16.sp
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
+
+                // LIVE indicator
+                if (isLive) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(16.dp)
+                            .background(
+                                color = Color.Red,
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .background(Color.White, CircleShape)
+                            )
+                            Text(
+                                text = "LIVE",
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+
+                // Recording indicator
+                if (isRecording) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(16.dp)
+                            .size(12.dp)
+                            .background(Color.Red, CircleShape)
+                    )
+                }
             }
             
-            // Recording indicator
-            if (isRecording) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(16.dp)
-                        .size(12.dp)
-                        .background(Color.Red, CircleShape)
-                )
-            }
-            
-            // Video controls at bottom
+            // Video controls at bottom - naturally positioned in Column
             VideoControls(
                 isPlaying = cameraState is CameraState.Playing,
                 isRecording = isRecording,
@@ -227,8 +235,9 @@ fun CameraView(
                 onGoToLive = onGoToLive,
                 onMaximize = onMaximize,
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
+                    .background(CardBackground)
+                    .padding(vertical = 8.dp)
             )
         }
     }
